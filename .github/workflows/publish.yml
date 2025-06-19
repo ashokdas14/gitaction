@@ -1,29 +1,23 @@
-name: Publish to GitHub Wiki
+name: Publish Report to Wiki
 
 on:
-  workflow_dispatch:  # Manually trigger or add 'push'/'pull_request' triggers
+  push:
+    branches:
+      - main
 
 jobs:
-  publish-to-wiki:
+  publish:
     runs-on: ubuntu-latest
-    environment: dev
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - name: Checkout source code
+        uses: actions/checkout@v3
 
-      - name: Checkout Wiki
-        uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository }}.wiki
-          path: wiki
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
-      # - name: Clone Wiki repository
-      #   run: |
-      #     git clone https://x-access-token:${{ secrets.WIKI_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
+      - name: Clone Wiki repository
+        run: |
+          git clone https://x-access-token:${{ secrets.GH_PAT }}@github.com/${{ github.repository }}.wiki.git wiki
 
-
-      - name: Prepare Wiki Content
+      - name: Create Security Scan Report
         run: |
           mkdir -p wiki/reports
           echo "## Security Scan Report - ${{ github.run_id }}" > wiki/reports/security-scan.md
@@ -33,16 +27,11 @@ jobs:
           echo "- Triggered by: ${{ github.actor }}" >> wiki/reports/security-scan.md
           echo "- Date: $(date)" >> wiki/reports/security-scan.md
 
-      - name: Commit and Push to Wiki
+      - name: Commit and Push Report
         run: |
           cd wiki
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add .
-          git commit -m "Updated report for run ${{ github.run_id }}"
-
-      - name: Push to Wiki
-        run: |
-          cd wiki
+          git commit -m "Update: Security scan report for run ${{ github.run_id }}"
           git push origin master
-
