@@ -33,7 +33,7 @@ jobs:
           cd wiki
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}/wiki
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}.wiki.git
           git add .
           git commit -m "Update: Security scan report for run ${{ github.run_id }}"
           git push origin master
