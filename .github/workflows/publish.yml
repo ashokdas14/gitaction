@@ -14,7 +14,7 @@ jobs:
       - name: Checkout Wiki
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository }}.wiki
+          repository: ${{ github.repository }}/wiki
           path: wiki
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -33,7 +33,7 @@ jobs:
           cd wiki
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}/wiki.git
+          git remote set-url origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }}/wiki
           git add .
           git commit -m "Update: Security scan report for run ${{ github.run_id }}"
           git push origin master
