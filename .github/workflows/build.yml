@@ -1,0 +1,21 @@
+name: Build and Notify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building..."
+
+  notify:
+    needs: build
+    uses: ./.github/workflows/slack-notify.yml
+    secrets:
+      SLACK_WEB_HOOK: ${{ secrets.SLACK_WEB_HOOK }}  # 👈 From 'dev' environment
+    with:
+      status: ${{ needs.build.result }}
+      triggered_by: ${{ github.actor }}
