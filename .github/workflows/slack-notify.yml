@@ -1,13 +1,15 @@
-name: Notify Slack on Push
+name: Slack Notification
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # You can also use push or other triggers
+
 jobs:
   notify:
     runs-on: ubuntu-latest
+    environment: dev  # 👈 IMPORTANT: Specify the environment name here
     steps:
-      - name: Send message to Slack
+      - name: Send Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_MESSAGE: "🚀 New push to *${{ github.repository }}* on branch *${{ github.ref_name }}* by *${{ github.actor }}*"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEB_HOOK }}
+          SLACK_MESSAGE: "✅ GitHub Action ran in *${{ github.repository }}* by *${{ github.actor }}*"
