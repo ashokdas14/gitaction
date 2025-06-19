@@ -18,9 +18,9 @@ jobs:
           path: wiki
           token: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Clone Wiki repository
-        run: |
-          git clone https://x-access-token:${{ secrets.WIKI_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
+      # - name: Clone Wiki repository
+      #   run: |
+      #     git clone https://x-access-token:${{ secrets.WIKI_TOKEN }}@github.com/${{ github.repository }}.wiki.git wiki
 
 
       - name: Prepare Wiki Content
